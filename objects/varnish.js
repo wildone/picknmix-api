@@ -15,7 +15,7 @@ exports.purge = function (host, url) {
 	process.nextTick(function(){
 		for (var i in ipaddresses) {
 
-			var client = new Varnish.VarnishClient(ipaddresses[i], MANAGEMENT_PORT);
+			var client = new Varnish.VarnishClient(ipaddresses[i], 6082);
 			client.on('ready', function() {
 			    client.run_cmd('ban req.http.host ~ '+host+' && req.url ~ '+url, function(){});
 			});
