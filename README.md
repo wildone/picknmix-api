@@ -14,15 +14,18 @@ Returns an array of objects, each object may contain the following fields (if ap
 * *term*: An identifier for the section
 * *label*: A description of the section to display to users
 
+
+404 If the user has no saved searches.
+
 ### POST /v1/user/:id/searches/:term
 Posts a search term to a user's saved searches for their acccount.
 
-Returns undefined
+Returns Status 204
 
 ### DELETE /v1/user/:id/searches/:term
 Deletes a saved search term from a user's saved searches.
 
-Returns undefined
+Returns Status 204
 
 ### /v1/search/:term
 Gets a list of articles in a given section
