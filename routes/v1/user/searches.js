@@ -11,7 +11,7 @@ module.exports = function(req, res){
                 var terms = searches.getTerms();
 
                 if (terms.length === 0) {
-                        res.status(404).send("(404) Not Found");
+                        res.status(404).send("[]");
                 } else {
                         res.send(JSON.stringify(searches.getTerms()));
                 }

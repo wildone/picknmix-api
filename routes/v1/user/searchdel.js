@@ -6,6 +6,6 @@ module.exports = function(req, res) {
 
         search.get(erightsid, function(searches) {
                 searches.removeSearch({ "term": term });
-                res.status(200).send('{ "status": 200 }');
+                res.status(204).send();
         });
 }

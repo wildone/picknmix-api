@@ -6,6 +6,6 @@ module.exports = function(req, res) {
 
         search.get(erightsid, function(searches) {
                 searches.addSearch({ "term": term, "label": "?label?" });
-                res.status(200).send('{ "status": 200 }');
+                res.status(204).send();
         });
 }
