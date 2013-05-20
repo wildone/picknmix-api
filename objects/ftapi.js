@@ -73,8 +73,12 @@ exports.pageItems = function (uuid, callback) {
 					break;
 				}
 			}
+
+			// CAPI doesn't return uuid, so parse it out of the url
+			var uuid = result.location.uri.match(/[0-9a-f\-]{36}/);
+			uuid = uuid[0];
 			output.push({
-				uuid: result.id,
+				uuid: uuid,
 				url: result.location.uri,
 				title: result.title.title,
 				summary: result.editorial.leadBody,
