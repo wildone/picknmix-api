@@ -17,6 +17,24 @@ app.configure(function(){
     res.setHeader("Content-Type", "application/json");
     return next();
   });
+  app.use(function(req, res, next) {
+        var preflight = false;
+        if (req.headers['access-control-request-method']) {
+                res.header('Access-Control-Allow-Methods', req.headers['access-control-request-method']);
+                preflight = true;
+        }
+
+        if (req.headers['access-control-request-headers']) {
+                res.header('Access-Control-Allow-Headers', req.headers["access-control-allow-headers'"]);
+                preflight = true;
+        }
+
+        if (preflight && req.method === 'OPTIONS') {
+                res.send(200);
+        } else {
+                next();
+        }
+  });
   app.use(express.logger('dev'));
   app.use(express.bodyParser());
   app.use(express.methodOverride());
