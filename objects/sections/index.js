@@ -8,7 +8,7 @@ var Page = require("./page");
 var Section = function (term) {
 	var parts = term.split(":");
 	if (parts.length == 1) {
-		parts = ["Search", "term"];
+		parts = ["Search", term];
 	}
 	switch (parts[0]) {
 		case "Search":
