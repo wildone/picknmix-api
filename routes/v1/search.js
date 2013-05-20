@@ -7,7 +7,7 @@ var api = require('../../objects/searchapi');
 
 module.exports = function(req, res){
 	var term = req.params.term;
-	api.search(term, ['ARTICLES', 'BLOGS'], function(results) {
+	api.search(term, ['ARTICLES'], function(results) {
 		res.send(JSON.stringify(results));
 	});
 };
