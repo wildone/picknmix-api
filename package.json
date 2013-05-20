@@ -12,6 +12,7 @@
   "dependencies": {
     "express": "3.0.6",
     "jade": "*",
-    "request": "*"
+    "request": "*",
+    "picknmix-savedsearches": "git://github.com/ftlabs/picknmix-savedsearches.git"
   }
 }
