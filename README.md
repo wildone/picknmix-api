@@ -7,13 +7,22 @@ The backend of the Pick &amp; Mix Project
 
 All responses are returned in JSON.
 
-### /v1/user/:id/searches
+### GET /v1/user/:id/searches
 Gets a list of sections which the user has added for their account.
 
 Returns an array of objects, each object may contain the following fields (if applicable):
 * *term*: An identifier for the section
 * *label*: A description of the section to display to users
-* *id*: Not really sure what this is for...
+
+### POST /v1/user/:id/searches/:term
+Posts a search term to a user's saved searches for their acccount.
+
+Returns undefined
+
+### DELETE /v1/user/:id/searches/:term
+Deletes a saved search term from a user's saved searches.
+
+Returns undefined
 
 ### /v1/search/:term
 Gets a list of articles in a given section
