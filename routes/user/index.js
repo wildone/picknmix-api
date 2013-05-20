@@ -1,0 +1,1 @@
+exports.searches = require('./searches');

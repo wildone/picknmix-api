@@ -3,7 +3,7 @@
  * GET users listing.
  */
 
-exports.searches = function(req, res){
+module.exports = function(req, res){
 	var sampledata = [
 		{
 			id: 1,
