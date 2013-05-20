@@ -22,8 +22,6 @@ app.configure('development', function(){
   app.use(express.errorHandler());
 });
 
-console.log(routes.user);
-
 app.get('/api/v1/user/:id/searches', routes.user.searches);
 
 http.createServer(app).listen(app.get('port'), function(){
