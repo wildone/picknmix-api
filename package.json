@@ -13,6 +13,7 @@
     "express": "3.0.6",
     "jade": "*",
     "request": "*",
-    "picknmix-savedsearches": "git://github.com/ftlabs/picknmix-savedsearches.git"
+    "picknmix-savedsearches": "git://github.com/ftlabs/picknmix-savedsearches.git",
+    "node-varnish": "*"
   }
 }
