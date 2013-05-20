@@ -28,6 +28,7 @@ app.configure('development', function(){
 
 app.get('/v1/user/:id/searches', routes.v1.user.searches);
 app.get('/v1/search/:term', routes.v1.search);
+app.get('/v1/suggest/:query', routes.v1.suggest);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));

@@ -32,7 +32,7 @@ exports.search = function (term, curations, callback) {
 			var result = results[i];
 
 			// Just use the first image if there is one (Search API doesn't support single image workflow)
-			var imageurl;
+			var imageurl = undefined;
 			if (result.images.length) {
 				imageurl = result.images[0].url;
 			}
