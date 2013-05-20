@@ -49,3 +49,30 @@ Returns an array of objects, each object may contain the following fields (if ap
 * http://api.ft-mix.com/v1/search/London
 * http://api.ft-mix.com/v1/user/7/searches
 * http://api.ft-mix.com/v1/suggest/Obama
+
+## Disaster recovery if the server goes down.
+
+- ssh hack@10.119.133.193
+- (see email)
+- cd picknmix-api/
+- node app.js
+
+If you get the following error - it means it's still running:-
+
+```
+events.js:72
+        throw er; // Unhandled 'error' event
+              ^
+Error: listen EADDRINUSE
+    at errnoException (net.js:884:11)
+    at Server._listen2 (net.js:1022:14)
+    at listen (net.js:1044:10)
+    at Server.listen (net.js:1110:5)
+    at Object.<anonymous> (/hack/picknmix-api/app.js:36:24)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Function.Module.runMain (module.js:497:10)
+-bash-4.1$ 
+```
