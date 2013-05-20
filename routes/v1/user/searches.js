@@ -9,13 +9,8 @@ module.exports = function(req, res){
 
         search.get(erightsid, function(searches) {
                 searches.getTerms().onSuccess(function(terms) {
-                        if (terms.length === 0) {
-                                res.status(404).send("[]");
-                        } else {
-                                res.send(JSON.stringify(terms));
-                        }
+                        res.send(JSON.stringify(terms));
                 });
-
         });
 };
 
