@@ -77,4 +77,4 @@ Error: listen EADDRINUSE
 -bash-4.1$ 
 ```
 
-Also, Sam says: "Redis".
+Also, Sam says: "Just make sure it's running with 'redis-server /etc/redis.conf'".
