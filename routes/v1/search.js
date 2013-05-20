@@ -1,5 +1,4 @@
-var api = require('../../objects/searchapi');
-var terms = require('../../objects/terms');
+var Section = require('../../objects/sections');
 
 
 /*
@@ -7,13 +6,8 @@ var terms = require('../../objects/terms');
  */
 
 module.exports = function(req, res){
-	terms.parse(req.params.term, function (section) {
-		if (section.type == "search") {
-			api.search(section.id, ['ARTICLES'], function(results) {
-				res.send(JSON.stringify(results));
-			});
-		} else {
-			throw "Can't find section type "+section.type;
-		}
+	var section = new Section (req.params.term);
+	section.getArticles(function(results) {
+		res.send(JSON.stringify(results));
 	});
 };
