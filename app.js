@@ -26,6 +26,8 @@ app.configure('development', function(){
   app.use(express.errorHandler());
 });
 
+
+app.post('/v1/user/:id/searches/:term', routes.v1.user.searchadd);
 app.get('/v1/user/:id/searches', routes.v1.user.searches);
 app.get('/v1/search/:term', routes.v1.search);
 app.get('/v1/suggest/:query', routes.v1.suggest);
