@@ -8,13 +8,7 @@ module.exports = function(req, res){
         var erightsid = req.params.id;
 
         search.get(erightsid, function(searches) {
-                var terms = searches.getTerms();
-
-                if (terms.length === 0) {
-                        res.status(404).send("[]");
-                } else {
-                        res.send(JSON.stringify(searches.getTerms()));
-                }
+           res.send(JSON.stringify(searches.getTerms()));
         });
 };
 
