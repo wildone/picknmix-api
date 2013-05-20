@@ -30,7 +30,8 @@ app.configure('development', function(){
 
 app.get('/', routes.index);
 app.get('/users', user.list);
-app.get('/api/v1/user/:id/searches', apiv1.searches);
+app.get('/api/v1/user/:id/searches', apiv1.usersearches);
+app.get('/api/v1/search/:term', apiv1.search);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));
