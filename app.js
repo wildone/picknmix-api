@@ -13,6 +13,7 @@ app.configure(function(){
   app.set('port', process.env.PORT || 3000);
   app.use(function(req, res, next) {
     res.setHeader("Access-Control-Allow-Origin", "*");
+    res.setHeader("Content-Type", "application/json");
     return next();
   });
   app.use(express.logger('dev'));

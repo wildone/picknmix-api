@@ -1,6 +1,5 @@
-
 /*
- * GET users listing.
+ * GET searches for a given user
  */
 
 module.exports = function(req, res){
