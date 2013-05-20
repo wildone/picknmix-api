@@ -21,8 +21,10 @@ exports.search = function (term, curations, callback) {
 	}, function(error, response, body){
 		if (error) {
 			console.warn(error);
+			return;
 		} else if (response.statusCode != 200) {
 			console.warn(response.statusCode, body, params);
+			return;
 		}
 		var output = [];
 		results = JSON.parse(body).results[0].results;
