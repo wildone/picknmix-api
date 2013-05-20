@@ -4,3 +4,4 @@
  */
 
 exports.user = require('./user');
+exports.search = require('./search');
