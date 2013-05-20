@@ -13,7 +13,6 @@ Gets a list of sections which the user has added for their account.
 Returns an array of objects, each object may contain the following fields (if applicable):
 * *term*: An identifier for the section
 * *label*: A description of the section to display to users
-* *id*: Not really sure what this is for...
 
 ### /v1/search/:term
 Gets a list of articles in a given section
