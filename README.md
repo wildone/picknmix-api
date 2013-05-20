@@ -15,6 +15,8 @@ Returns an array of objects, each object may contain the following fields (if ap
 * *label*: A description of the section to display to users
 
 
+404 If the user has no saved searches.
+
 ### POST /v1/user/:id/searches/:term
 Posts a search term to a user's saved searches for their acccount.
 
