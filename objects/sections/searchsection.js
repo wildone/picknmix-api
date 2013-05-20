@@ -1,4 +1,4 @@
-var api = require('../../objects/searchapi');
+var api = require('../../objects/ftapi');
 var SearchSection = function (term) {
 	this.term = term;
 };

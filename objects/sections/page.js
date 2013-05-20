@@ -1,11 +1,10 @@
-var api = require('../../objects/searchapi');
+var api = require('../../objects/ftapi');
 
 var Page = function (uuid) {
 	this.uuid = uuid;
 };
 Page.prototype.getArticles = function (callback) {
-	// TODO
-	callback([]);
+	api.pageItems(this.uuid, callback);
 };
 Page.getSuggestions = function (term, callback) {
 

@@ -1,4 +1,3 @@
-var api = require('../../objects/searchapi');
 var Section = require('../../objects/sections');
 
 
