@@ -8,6 +8,7 @@ var routes = require('./routes');
 var http = require('http');
 var path = require('path');
 var app = express();
+require("./objects/varnish");
 
 app.configure(function(){
   app.set('port', process.env.PORT || 3000);
