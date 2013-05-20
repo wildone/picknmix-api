@@ -11,7 +11,7 @@ exports.search = function (term, curations, callback) {
 			curations: curations,
 		},
 		resultContext: {
-			aspects: [ "title", "images", "summary"]       
+			aspects: [ "title", "images", "summary", "location"]       
 		},
 	};
 	request.post({
@@ -38,6 +38,7 @@ exports.search = function (term, curations, callback) {
 			}
 			output.push({
 				uuid: result.id,
+				url: result.location.uri,
 				title: result.title.title,
 				summary: result.summary.excerpt,
 				image: imageurl,
