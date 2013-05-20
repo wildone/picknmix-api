@@ -78,3 +78,5 @@ Error: listen EADDRINUSE
 ```
 
 Also, Sam says: "Just make sure it's running with 'redis-server /etc/redis.conf'".
+
+(Seeing what's running with `top` and arbitrarily killing stuff with `kill` should probably be ok maybe)
