@@ -3,35 +3,46 @@ var fs = require('fs');
 
 var key = fs.readFileSync('./ftapikey', {encoding: "UTF-8"}).trim();
 
-var searchcache = {};
+var cache = {};
 exports.search = function (term, curations, callback, limit) {
-	var url = "http://api.ft.com/content/search/v1?apiKey="+key;
-	var params = {
-		queryString: term,
-		queryContext:{
-			curations: curations
-		},
-		resultContext: {
-			aspects: [ "title", "images", "summary", "location"],
-			maxResults: limit
-		}
-	};
-	request.post({
-		headers: {'content-type' : 'application/json-encoded'},
-		url:     url,
-		body:    JSON.stringify(params)
-	}, function(error, response, body){
-		if (error) {
-			console.warn(error);
-			return;
-		} else if (response.statusCode != 200) {
-			console.warn(response.statusCode, body, params);
-			return;
-		}
+	var cachekey  = 'search:'+term+'/'+curations.join(',')+"/"+limit;
+
+	if (cachekey in cache) {
+		handleResults(cache[cachekey]);
+	} else {
+		var url = "http://api.ft.com/content/search/v1?apiKey="+key;
+		var params = {
+			queryString: term,
+			queryContext:{
+				curations: curations
+			},
+			resultContext: {
+				aspects: [ "title", "images", "summary", "location"],
+				maxResults: limit
+			}
+		};
+		request.post({
+			headers: {'content-type' : 'application/json-encoded'},
+			url:     url,
+			body:    JSON.stringify(params)
+		}, function(error, response, body){
+			if (error) {
+				console.warn(error);
+				return;
+			} else if (response.statusCode != 200) {
+				console.warn(response.statusCode, body, params);
+				return;
+			}
+			results = JSON.parse(body).results[0].results;
+			cache[cachekey] = results;
+			handleResults(results);
+		});
+	}
+
+	function handleResults(results) {
 		var output = [];
 		var imageurl;
 		var uuids = [];
-		results = JSON.parse(body).results[0].results;
 		for (var i in results) {
 			if (results[i].aspectSet == "article") {
 				uuids.push(results[i].id);
@@ -47,29 +58,41 @@ exports.search = function (term, curations, callback, limit) {
 				callback(output, term);
 			});
 		}
-	});
+
+	}
 };
 
 exports.pageItems = function (uuid, callback, limit) {
+	var cachekey  = 'page:'+uuid+'/'+limit;
 
-	// TODO: limits
+	if (cachekey in cache) {
+		handleResults(cache[cachekey]);
+	} else {
 
-	var url = "http://api.ft.com/site/v1/pages/"+uuid+"/main-content?apiKey="+key;
-	request.get(url, function (error, response, body) {
+		// TODO: limits
 
-		if (error) {
-			console.warn(error);
-			return;
-		} else if (response.statusCode != 200) {
-			console.warn(response.statusCode, body);
-			return;
-		}
-		var output = [];
-		var imageurl;
-		var parsedBody = JSON.parse(body);
-		results = parsedBody.pageItems;
+		var url = "http://api.ft.com/site/v1/pages/"+uuid+"/main-content?apiKey="+key;
+		request.get(url, function (error, response, body) {
+
+			if (error) {
+				console.warn(error);
+				return;
+			} else if (response.statusCode != 200) {
+				console.warn(response.statusCode, body);
+				return;
+			}
+			var parsedBody = JSON.parse(body);
+			cache[cachekey] = parsedBody;
+			handleResults(parsedBody);
+		});
+	}
+
+	function handleResults(parsedBody) {
+		var results = parsedBody.pageItems;
 		var title = parsedBody.page.title;
 		var uuids = [];
+		var output = [];
+		var imageurl;
 		for (var i in results) {
 
 			// CAPI doesn't return uuids, so parse it out of the url
@@ -81,41 +104,52 @@ exports.pageItems = function (uuid, callback, limit) {
 		exports.items(uuids, function (output) {
 			callback(output, title);
 		});
-	});
+	}
 };
 
 
 function getItem(uuid, callback) {
-	var url = "http://api.ft.com/content/items/v1/"+uuid+"?apiKey="+key+"&bodyFormat=plain";
-	request.get(url, function (error, response, body) {
+	var cachekey  = 'item:'+uuid;
+	if (cachekey in cache) {
+		handleResults(cache[cachekey]);
+	} else {
+		var url = "http://api.ft.com/content/items/v1/"+uuid+"?apiKey="+key+"&bodyFormat=plain";
+		request.get(url, function (error, response, body) {
 
-		if (error || response.statusCode != 200) {
-			console.warn(error, response.statusCode, body);
+			if (error || response.statusCode != 200) {
+				console.warn(error, response.statusCode, body);
 
-			// Nulls will get stripped out by items
-			callback(null);
-			return;
-		}
-
-		var parsedBody = JSON.parse(body);
-		var item = parsedBody.item;
-
-		var imageurl;
-		for (var j in item.images) {
-			if (item.images[j].type == "wide-format") {
-				imageurl = item.images[j].url;
-				break;
+				// Nulls will get stripped out by items
+				callback(null);
+				return;
 			}
-		}
-		callback({
-			uuid: uuid,
-			url: item.location.uri,
-			title: item.title.title,
-			summary: item.editorial.leadBody,
-			image: imageurl,
-			body: item.body.body,
+
+			var parsedBody = JSON.parse(body);
+			var item = parsedBody.item;
+			cache[cachekey] = item;
+			handleResults(item);
 		});
-	});
+	}
+
+	function handleResults(item) {
+
+			var imageurl;
+			for (var j in item.images) {
+				if (item.images[j].type == "wide-format") {
+					imageurl = item.images[j].url;
+					break;
+				}
+			}
+			callback({
+				uuid: uuid,
+				url: item.location.uri,
+				title: item.title.title,
+				summary: item.editorial.leadBody,
+				image: imageurl,
+				body: item.body.body,
+			});
+
+	}
 
 };
 
