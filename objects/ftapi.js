@@ -1,7 +1,7 @@
 var request = require('request');
 var fs = require('fs');
 
-var key = fs.readFileSync('./ftapikey', {encoding: "UTF-8"});
+var key = fs.readFileSync('./ftapikey', {encoding: "UTF-8"}).trim();
 
 exports.search = function (term, curations, callback, limit) {
 	var url = "http://api.ft.com/content/search/v1?apiKey="+key;
@@ -89,7 +89,7 @@ function getItem(uuid, callback) {
 	request.get(url, function (error, response, body) {
 
 		if (error || response.statusCode != 200) {
-			console.warn(error, response.statusCode, body, url);
+			console.warn(error, response.statusCode, body);
 
 			// Nulls will get stripped out by items
 			callback(null);
