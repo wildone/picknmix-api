@@ -59,7 +59,7 @@ exports.pageItems = function (uuid, callback) {
 			console.warn(error);
 			return;
 		} else if (response.statusCode != 200) {
-			console.warn(response.statusCode, body, params);
+			console.warn(response.statusCode, body);
 			return;
 		}
 		var output = [];
@@ -67,10 +67,10 @@ exports.pageItems = function (uuid, callback) {
 		var parsedBody = JSON.parse(body);
 		results = parsedBody.pageItems;
 		var title = parsedBody.page.title;
+		var uuids = [];
 		for (var i in results) {
 			var result = results[i];
 
-			// Just use the first image if there is one (Search API doesn't support single image workflow)
 			imageurl = undefined;
 			for (var j in result.images) {
 				if (result.images[j].type == "wide-format") {
@@ -82,6 +82,7 @@ exports.pageItems = function (uuid, callback) {
 			// CAPI doesn't return uuid, so parse it out of the url
 			var uuid = result.location.uri.match(/[0-9a-f\-]{36}/);
 			uuid = uuid[0];
+			uuids.push(uuid);
 			output.push({
 				uuid: uuid,
 				url: result.location.uri,
@@ -90,6 +91,57 @@ exports.pageItems = function (uuid, callback) {
 				image: imageurl
 			});
 		}
-		callback(output, title);
+		exports.items(uuids, function (output) {
+			callback(output, title);
+		})
 	});
+};
+
+
+exports.item = function (uuid, callback) {
+	var url = "http://api.ft.com/content/items/v1/"+uuid+"?apiKey="+key+"&bodyFormat=plain";
+	request.get(url, function (error, response, body) {
+
+		if (error || response.statusCode != 200) {
+			console.warn(error, response.statusCode, body);
+			callback({});
+			return;
+		}
+
+		var parsedBody = JSON.parse(body);
+		var item = parsedBody.item;
+
+		var imageurl;
+		for (var j in item.images) {
+			if (item.images[j].type == "wide-format") {
+				imageurl = item.images[j].url;
+				break;
+			}
+		}
+		callback({
+			uuid: uuid,
+			url: item.location.uri,
+			title: item.title.title,
+			summary: item.editorial.leadBody,
+			image: imageurl,
+			body: item.body.body,
+		});
+	});
+
+};
+
+exports.items = function (uuids, callback) {
+	var output = [];
+	var returned = 0;
+	for (var i in uuids) {
+		(function (i) {
+			exports.item(uuids[i], function (item) {
+				output[i] = item;
+				returned++;
+				if (returned == uuids.length) {
+					callback(output);
+				}
+			});
+		}(i));
+	}
 };
