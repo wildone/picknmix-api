@@ -28,25 +28,14 @@ exports.search = function (term, curations, callback) {
 		}
 		var output = [];
 		var imageurl;
-		var result;
+		var uuids = [];
 		results = JSON.parse(body).results[0].results;
 		for (var i in results) {
-			result = results[i];
-
-			// Just use the first image if there is one (Search API doesn't support single image workflow)
-			imageurl = undefined;
-			if (result.images.length) {
-				imageurl = result.images[0].url;
-			}
-			output.push({
-				uuid: result.id,
-				url: result.location.uri,
-				title: result.title.title,
-				summary: result.summary.excerpt,
-				image: imageurl
-			});
+			uuids.push(results[i].id);
 		}
-		callback(output, term);
+		exports.items(uuids, function (output) {
+			callback(output, term);
+		});
 	});
 };
 
@@ -69,31 +58,16 @@ exports.pageItems = function (uuid, callback) {
 		var title = parsedBody.page.title;
 		var uuids = [];
 		for (var i in results) {
-			var result = results[i];
 
-			imageurl = undefined;
-			for (var j in result.images) {
-				if (result.images[j].type == "wide-format") {
-					imageurl = result.images[j].url;
-					break;
-				}
-			}
-
-			// CAPI doesn't return uuid, so parse it out of the url
-			var uuid = result.location.uri.match(/[0-9a-f\-]{36}/);
+			// CAPI doesn't return uuids, so parse it out of the url
+			var uuid = results[i].location.uri.match(/[0-9a-f\-]{36}/);
+			if (!uuid) continue;
 			uuid = uuid[0];
 			uuids.push(uuid);
-			output.push({
-				uuid: uuid,
-				url: result.location.uri,
-				title: result.title.title,
-				summary: result.editorial.leadBody,
-				image: imageurl
-			});
 		}
 		exports.items(uuids, function (output) {
 			callback(output, title);
-		})
+		});
 	});
 };
 
@@ -130,6 +104,9 @@ exports.item = function (uuid, callback) {
 
 };
 
+/**
+ * Get lots of items from the content API at the same time
+ */
 exports.items = function (uuids, callback) {
 	var output = [];
 	var returned = 0;
