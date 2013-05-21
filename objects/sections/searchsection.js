@@ -3,7 +3,6 @@ var SearchSection = function (term) {
 	this.term = term;
 };
 SearchSection.prototype.getArticles = function (callback) {
-  var self = this;
 	api.search(this.term, ['ARTICLES'], callback);
 };
 SearchSection.getSuggestions = function (term, callback) {
