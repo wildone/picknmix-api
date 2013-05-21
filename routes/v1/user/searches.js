@@ -9,7 +9,8 @@ module.exports = function(req, res){
 
         search.get(erightsid, function(searches) {
                 searches.getTerms().onSuccess(function(terms) {
-                        res.send(JSON.stringify(terms));
+                        terms.reverse();
+                        res.send(JSON.stringify(terms);
                         searches.destroy();
                 }).onError(function(error) {
                         res.status(500).send("Error retrieving searches for eid: " + erightsid + " (" + error + ")");
