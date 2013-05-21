@@ -10,6 +10,7 @@ module.exports = function(req, res){
         search.get(erightsid, function(searches) {
                 searches.getTerms().onSuccess(function(terms) {
                         res.send(JSON.stringify(terms));
+                        searches.destroy();
                 });
         });
 };
