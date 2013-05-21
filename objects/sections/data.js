@@ -1,30 +1,42 @@
 var fs = require('fs');
 
 var api = require('../../objects/ftapi');
+var files = {
+	"students": "Student Persona"
+};
 
 var Data = function (id) {
 	this.id = id;
 };
 Data.prototype.getArticles = function (callback, limit) {
+	if (!(this.id in files)) {
+			callback([], this.id);
+			return;
+	}
+	var title = files[this.id];
 	fs.readFile('./data/'+this.id, {encoding: "UTF-8"}, function (err, data) {
 		if (err) {
-			callback([], this.id);
+			callback([], title);
 			return;
 		}
 
 		var uuids = data.trim().split("\n");
 		api.items(uuids, function (output) {
-			callback(output, this.id);
+			callback(output, title);
 		});
 	});
 };
 Data.getSuggestions = function (query, callback) {
 	var output = [];
-	if ("Students".toLowerCase().indexOf(query.toLowerCase()) !== -1) {
-		output.push({
-			term: "Data:students",
-			title: "Students"
-		});
+
+	for (var id in files) {
+		var title = files[id];
+		if (title.toLowerCase().indexOf(query.toLowerCase()) !== -1) {
+			output.push({
+				term: "Data:"+id,
+				title: title
+			});
+		}
 	}
 	callback(output);
 };
