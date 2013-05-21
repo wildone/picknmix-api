@@ -5,6 +5,7 @@
 var SearchSection = require("./searchsection");
 var Page = require("./page");
 var Popular = require("./popular");
+var Data = require("./data");
 
 var Section = function (term) {
 	var parts = term.split(":");
@@ -16,6 +17,8 @@ var Section = function (term) {
 			return new SearchSection(parts[1]);
 		case "Page":
 			return new Page(parts[1]);
+		case "Data":
+			return new Data(parts[1]);
 		case "Popular":
 			return new Popular();
 		default:
@@ -29,7 +32,9 @@ Section.getSuggestions = function (query, callback) {
 	Page.getSuggestions(query, function (pagesuggestions) {
 		SearchSection.getSuggestions(query, function (searchsuggestions) {
 			Popular.getSuggestions(query, function (popsuggestions) {
-				callback(popsuggestions.concat(pagesuggestions, searchsuggestions));
+				Data.getSuggestions(query, function (datasuggestions) {
+					callback(popsuggestions.concat(datasuggestions, pagesuggestions, searchsuggestions));
+				});
 			});
 		});
 	});
