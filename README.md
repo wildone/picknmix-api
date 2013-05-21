@@ -35,6 +35,12 @@ Returns an array of objects, each object may contain the following fields (if ap
 * *summary*: A short snippet from the article
 * *image*: The url of the article's image
 
+### /v2/search/:term
+Gets an object of the following form:
+
+* *label*: A string and results is a list of articles in a given section.
+* *results*: The results (an array of objects) are in the same form as those returned by v1.
+
 ### /v1/suggest/:query
 Gets a list of suggested sections for a given query
 
