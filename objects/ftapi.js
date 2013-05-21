@@ -32,11 +32,20 @@ exports.search = function (term, curations, callback, limit) {
 		var uuids = [];
 		results = JSON.parse(body).results[0].results;
 		for (var i in results) {
-			uuids.push(results[i].id);
+			if (results[i].aspectSet == "article") {
+				uuids.push(results[i].id);
+			} else {
+				output.push(results[i]);
+			}
 		}
-		exports.items(uuids, function (output) {
-			callback(output, term);
-		});
+
+		if (curations.length == 1 && curations[0] == 'PAGES') {
+			callback(output);
+		} else {
+			exports.items(uuids, function (output) {
+				callback(output, term);
+			});
+		}
 	});
 };
 

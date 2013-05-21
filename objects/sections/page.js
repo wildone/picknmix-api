@@ -14,9 +14,8 @@ Page.getSuggestions = function (term, callback) {
 		var output = [];
 		for (var i in pages) {
 			output.push({
-				term: "Page:"+pages[i].uuid,
-				title: pages[i].title,
-				image: pages[i].image
+				term: "Page:"+pages[i].id,
+				title: pages[i].title.title
 			});
 		}
 		callback(output);
