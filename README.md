@@ -74,8 +74,10 @@ Error: listen EADDRINUSE
     at Module.load (module.js:356:32)
     at Function.Module._load (module.js:312:12)
     at Function.Module.runMain (module.js:497:10)
--bash-4.1$ 
+-bash-4.1$
 ```
+
+If we get: ```[Error: ERR Operation against a key holding the wrong kind of value]``` in the API error log when looking at user searches.  It means the data format is incorrect for the erightsID.  Log on to hack@ipaddress and run `redis-cli -a foobared` and execute:  `DEL <erightsid>`
 
 Also, Sam says: "Just make sure it's running with 'redis-server /etc/redis.conf'".
 
