@@ -72,13 +72,15 @@ exports.pageItems = function (uuid, callback) {
 };
 
 
-exports.item = function (uuid, callback) {
+function getItem(uuid, callback) {
 	var url = "http://api.ft.com/content/items/v1/"+uuid+"?apiKey="+key+"&bodyFormat=plain";
 	request.get(url, function (error, response, body) {
 
 		if (error || response.statusCode != 200) {
 			console.warn(error, response.statusCode, body);
-			callback({});
+
+			// Nulls will get stripped out by items
+			callback(null);
 			return;
 		}
 
@@ -112,10 +114,13 @@ exports.items = function (uuids, callback) {
 	var returned = 0;
 	for (var i in uuids) {
 		(function (i) {
-			exports.item(uuids[i], function (item) {
+			getItem(uuids[i], function (item) {
 				output[i] = item;
 				returned++;
 				if (returned == uuids.length) {
+					output = output.filter(function (element){
+						return !!output;
+					});
 					callback(output);
 				}
 			});
