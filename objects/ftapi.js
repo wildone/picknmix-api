@@ -89,7 +89,7 @@ function getItem(uuid, callback) {
 	request.get(url, function (error, response, body) {
 
 		if (error || response.statusCode != 200) {
-			console.warn(error, response.statusCode, body);
+			console.warn(error, response.statusCode, body, url);
 
 			// Nulls will get stripped out by items
 			callback(null);
