@@ -11,6 +11,8 @@ module.exports = function(req, res){
                 searches.getTerms().onSuccess(function(terms) {
                         res.send(JSON.stringify(terms));
                         searches.destroy();
+                }).onError(function(error) {
+                        res.status(500).send("Error retrieving searches for eid: " + erightsid + " (" + error + ")");
                 });
         });
 };
