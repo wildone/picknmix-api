@@ -2,7 +2,29 @@ var fs = require('fs');
 
 var api = require('../../objects/ftapi');
 var files = {
-	"students": "Student Persona"
+	"students": "Student Persona",
+	"Analysts": "",
+	"Associates": "",
+	 "BrokerTraderAdvisors": "",
+	 "BusinessSchoolAcademics": "",
+	 "CEOpresidentChairmans": "",
+	 "Consultants": "",
+	 "DiplomatSenGovtOfficers": "",
+	 "ExecMgmtEVPSVPMDs": "",
+	 "GovtIntlorgofficials": "",
+	 "MBAStudents": "",
+	 "ManagerSupervisors": "",
+	 "OtherCLevelCFOCOOCIOCMOs": "",
+	 "OwnerPartnerProprietors": "",
+	 "PoliticianGovernmentMinisters": "",
+	 "Professionals": "",
+	 "ProgrammeProjectManagers": "",
+	 "SecretaryTreasurers": "",
+	 "SeniorManagerDeptHeads": "",
+	 "TechnicalBusinessSpecialists": "Technical Business Specialists",
+	 "VPDirectors": "VP Directors",
+	 "deepthinker": "Deep Thinkers",
+	 "functionalusers": "Functional Users"
 };
 
 var Data = function (id) {
