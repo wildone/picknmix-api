@@ -6,6 +6,9 @@ var Page = function (uuid) {
 Page.prototype.getArticles = function (callback, limit) {
 	api.pageItems(this.uuid, callback, limit);
 };
+Page.prototype.getTitle = function () {
+	return "Page";
+};
 Page.getSuggestions = function (term, callback) {
 
 	// Search API gets confused by colons, so replace them with spaces

@@ -9,7 +9,12 @@ module.exports = function(req, res){
 
         search.get(erightsid, function(searches) {
                 searches.getTerms().onSuccess(function(terms) {
+                		var section;
                         terms.reverse();
+                        for (var i in terms) {
+							section = new Section(terms[i].term);
+							terms[i].label = section.getTitle();
+                        }
                         res.send(JSON.stringify(terms));
                         searches.destroy();
                 }).onError(function(error) {

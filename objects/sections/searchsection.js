@@ -5,6 +5,9 @@ var SearchSection = function (term) {
 SearchSection.prototype.getArticles = function (callback, limit) {
 	api.search(this.term, ['ARTICLES'], callback, limit);
 };
+SearchSection.prototype.getTitle = function () {
+	return this.term;
+};
 SearchSection.getSuggestions = function (term, callback) {
 
 	// Search API gets confused by colons, so replace them with spaces

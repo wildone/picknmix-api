@@ -27,6 +27,9 @@ Popular.prototype.getArticles = function (callback, limit) {
 		});
 	});
 };
+Popular.prototype.getTitle = function () {
+	return title;
+};
 Popular.getSuggestions = function (query, callback) {
 	var output = [];
 	if (title.toLowerCase().indexOf(query.toLowerCase()) !== -1) {
