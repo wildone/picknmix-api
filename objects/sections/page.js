@@ -19,6 +19,6 @@ Page.getSuggestions = function (term, callback) {
 			});
 		}
 		callback(output);
-	});
+	}, 8);
 };
 module.exports = Page;
