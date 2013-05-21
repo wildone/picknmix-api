@@ -2,8 +2,8 @@ var api = require('../../objects/ftapi');
 var SearchSection = function (term) {
 	this.term = term;
 };
-SearchSection.prototype.getArticles = function (callback) {
-	api.search(this.term, ['ARTICLES'], callback);
+SearchSection.prototype.getArticles = function (callback, limit) {
+	api.search(this.term, ['ARTICLES'], callback, limit);
 };
 SearchSection.getSuggestions = function (term, callback) {
 

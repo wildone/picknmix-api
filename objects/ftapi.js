@@ -3,7 +3,7 @@ var fs = require('fs');
 
 var key = fs.readFileSync('./ftapikey', {encoding: "UTF-8"});
 
-exports.search = function (term, curations, callback) {
+exports.search = function (term, curations, callback, limit) {
 	var url = "http://api.ft.com/content/search/v1?apiKey="+key;
 	var params = {
 		queryString: term,
@@ -11,7 +11,8 @@ exports.search = function (term, curations, callback) {
 			curations: curations
 		},
 		resultContext: {
-			aspects: [ "title", "images", "summary", "location"]
+			aspects: [ "title", "images", "summary", "location"],
+			maxResults: limit
 		}
 	};
 	request.post({
@@ -39,7 +40,9 @@ exports.search = function (term, curations, callback) {
 	});
 };
 
-exports.pageItems = function (uuid, callback) {
+exports.pageItems = function (uuid, callback, limit) {
+
+	// TODO: limits
 
 	var url = "http://api.ft.com/site/v1/pages/"+uuid+"/main-content?apiKey="+key;
 	request.get(url, function (error, response, body) {

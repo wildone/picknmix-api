@@ -3,8 +3,8 @@ var api = require('../../objects/ftapi');
 var Page = function (uuid) {
 	this.uuid = uuid;
 };
-Page.prototype.getArticles = function (callback) {
-	api.pageItems(this.uuid, callback);
+Page.prototype.getArticles = function (callback, limit) {
+	api.pageItems(this.uuid, callback, limit);
 };
 Page.getSuggestions = function (term, callback) {
 
