@@ -1,4 +1,5 @@
 var search = require("picknmix-savedsearches");
+var varnish = require("../../../objects/varnish");
 
 module.exports = function(req, res) {
         var erightsid = req.params.id,
