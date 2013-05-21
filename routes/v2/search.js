@@ -10,5 +10,5 @@ module.exports = function(req, res){
   section.getArticles(function(results, label) {
     var output = { label: label, results: results };
     res.send(JSON.stringify(output));
-  }), req.query['limit'];
+  }, req.query['limit']);
 };
