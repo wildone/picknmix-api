@@ -3,6 +3,7 @@ var fs = require('fs');
 
 var key = fs.readFileSync('./ftapikey', {encoding: "UTF-8"}).trim();
 
+var searchcache = {};
 exports.search = function (term, curations, callback, limit) {
 	var url = "http://api.ft.com/content/search/v1?apiKey="+key;
 	var params = {
@@ -131,7 +132,7 @@ exports.items = function (uuids, callback) {
 				returned++;
 				if (returned == uuids.length) {
 					output = output.filter(function (element){
-						return !!output;
+						return !!element;
 					});
 					callback(output);
 				}
