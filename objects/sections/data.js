@@ -50,7 +50,7 @@ Data.prototype.getArticles = function (callback, limit) {
 };
 Data.prototype.getTitle = function () {
 	return files[this.id];
-}
+};
 Data.getSuggestions = function (query, callback) {
 	var output = [];
 
