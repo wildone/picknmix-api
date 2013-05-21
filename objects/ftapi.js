@@ -8,16 +8,16 @@ exports.search = function (term, curations, callback) {
 	var params = {
 		queryString: term,
 		queryContext:{
-			curations: curations,
+			curations: curations
 		},
 		resultContext: {
-			aspects: [ "title", "images", "summary", "location"]       
-		},
+			aspects: [ "title", "images", "summary", "location"]
+		}
 	};
 	request.post({
-	  headers: {'content-type' : 'application/json-encoded'},
-	  url:     url,
-	  body:    JSON.stringify(params),
+		headers: {'content-type' : 'application/json-encoded'},
+		url:     url,
+		body:    JSON.stringify(params)
 	}, function(error, response, body){
 		if (error) {
 			console.warn(error);
@@ -27,12 +27,14 @@ exports.search = function (term, curations, callback) {
 			return;
 		}
 		var output = [];
+		var imageurl;
+		var result;
 		results = JSON.parse(body).results[0].results;
 		for (var i in results) {
-			var result = results[i];
+			result = results[i];
 
 			// Just use the first image if there is one (Search API doesn't support single image workflow)
-			var imageurl = undefined;
+			imageurl = undefined;
 			if (result.images.length) {
 				imageurl = result.images[0].url;
 			}
@@ -41,12 +43,12 @@ exports.search = function (term, curations, callback) {
 				url: result.location.uri,
 				title: result.title.title,
 				summary: result.summary.excerpt,
-				image: imageurl,
+				image: imageurl
 			});
 		}
-		callback(output);
+		callback(output, term);
 	});
-}
+};
 
 exports.pageItems = function (uuid, callback) {
 
@@ -61,12 +63,15 @@ exports.pageItems = function (uuid, callback) {
 			return;
 		}
 		var output = [];
-		results = JSON.parse(body).pageItems;
+		var imageurl;
+		var parsedBody = JSON.parse(body);
+		results = parsedBody.pageItems;
+		var title = parsedBody.page.title;
 		for (var i in results) {
 			var result = results[i];
 
 			// Just use the first image if there is one (Search API doesn't support single image workflow)
-			var imageurl = undefined;
+			imageurl = undefined;
 			for (var j in result.images) {
 				if (result.images[j].type == "wide-format") {
 					imageurl = result.images[j].url;
@@ -82,10 +87,9 @@ exports.pageItems = function (uuid, callback) {
 				url: result.location.uri,
 				title: result.title.title,
 				summary: result.editorial.leadBody,
-				image: imageurl,
+				image: imageurl
 			});
 		}
-		callback(output);
-
+		callback(output, title);
 	});
-}
+};
