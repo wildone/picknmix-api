@@ -10,7 +10,7 @@ Page.getSuggestions = function (term, callback) {
 
 	// Search API gets confused by colons, so replace them with spaces
 	term = term.replace(":", " ");
-	api.search(term, ['PAGES'], function(pages, title) {
+	api.search(term, ['PAGES'], function(pages) {
 		var output = [];
 		for (var i in pages) {
 			output.push({
@@ -19,7 +19,7 @@ Page.getSuggestions = function (term, callback) {
 				image: pages[i].image
 			});
 		}
-		callback(output, title);
+		callback(output);
 	});
 };
 module.exports = Page;
